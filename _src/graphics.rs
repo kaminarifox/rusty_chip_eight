@@ -5,7 +5,7 @@ pub struct Screen {
 }
 
 impl Screen {
-    pub fn clear(&mut self) {
+    pub fn clear() {
         self.buffer = [false; BUFFER_SIZE];
     }
 

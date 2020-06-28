@@ -1,12 +1,12 @@
 use std::io;
+use std::fs;
 use std::fs::File;
 use std::io::Read;
-use crate::interpreter::Cpu;
 
 pub struct Memory {
     ram: Vec<u8>,
     stack: Vec<u8>,
-    pc: usize
+    pc: u16
 }
 
 impl Memory {
@@ -14,7 +14,6 @@ impl Memory {
         Memory {
             ram: Vec::new(),
             stack: Vec::new(),
-            pc: 0
         }
     }
 
@@ -22,17 +21,6 @@ impl Memory {
         let mut file = File::open(file_path)?;
         file.read_to_end(&mut self.ram);
         Ok(())
-    }
-
-    pub fn run(&mut self) {
-        Cpu::exec(self);
-    }
-
-    pub fn get_opcode(&mut self) -> u16 {
-        let high_bits: u16 = (self.ram[self.pc]) as u16;
-        let low_bits: u16 = self.ram[self.pc + 1] as u16;
-
-        high_bits << 8 + low_bits
     }
 }
 
