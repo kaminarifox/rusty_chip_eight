@@ -25,10 +25,10 @@ impl Memory {
     }
 
     pub fn get_opcode(&mut self) -> u16 {
-        let high_bits: u16 = (self.ram[self.pc]) as u16;
-        let low_bits: u16 = self.ram[self.pc + 1] as u16;
+        let mut high_bits = (self.ram[self.pc] as u16) << 8;
+        let low_bits= self.ram[self.pc + 1] as u16;
 
-        high_bits << 8 + low_bits
+        high_bits + low_bits
     }
 
     pub fn jump(&mut self, jmp_addr: usize) {

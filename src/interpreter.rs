@@ -43,6 +43,14 @@ impl Cpu {
 
     pub fn run(&mut self) {
         self.exec();
+        self.exec();
+        self.exec();
+        self.exec();
+        self.exec();
+        self.exec();
+        self.exec();
+        self.exec();
+        self.exec();
     }
 
     fn exec(&mut self) {
@@ -52,6 +60,8 @@ impl Cpu {
     }
 
     fn interpret(&mut self, opcode: u16) {
+        println!("{:X}", opcode);
+
         let opcode_group = opcode >> 12;
 
         match opcode_group {
@@ -62,6 +72,7 @@ impl Cpu {
             0x6 => self.set_reg(&opcode),
             0x7 => self.add(&opcode),
             0x8 => self.calc(&opcode),
+            0x9 => self.skip_if_reg_not_eq(&opcode),
             _ => ()
         }
     }
@@ -126,6 +137,16 @@ impl Cpu {
             },
             _ => ()
         }
+    }
+
+    fn skip_if_reg_not_eq(&mut self, opcode: &u16) {
+        if self.v_reg[Opcode::get_x(opcode)] != self.v_reg[Opcode::get_y(opcode)] {
+            self.mem.next();
+        }
+    }
+
+    fn set_i(&mut self, opcode: &u16) {
+        self.i_reg = Opcode::get_addr(opcode);
     }
 }
 
