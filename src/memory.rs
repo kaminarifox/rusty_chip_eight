@@ -24,15 +24,19 @@ impl Memory {
         Ok(())
     }
 
-    pub fn run(&mut self) {
-        Cpu::exec(self);
-    }
-
     pub fn get_opcode(&mut self) -> u16 {
         let high_bits: u16 = (self.ram[self.pc]) as u16;
         let low_bits: u16 = self.ram[self.pc + 1] as u16;
 
         high_bits << 8 + low_bits
+    }
+
+    pub fn jump(&mut self, jmp_addr: usize) {
+        self.pc = jmp_addr;
+    }
+
+    pub fn next(&mut self) {
+        self.pc += 2;
     }
 }
 
